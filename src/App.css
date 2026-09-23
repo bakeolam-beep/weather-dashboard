@@ -90,6 +90,40 @@
   outline-offset: 2px;
 }
 
+.search-form .geo-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.search-form .geo-button:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.search-form .geo-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.search-form .geo-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-form .geo-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .search-error {
   width: 100%;
   max-width: 900px;

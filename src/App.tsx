@@ -10,6 +10,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [geoLoading, setGeoLoading] = useState(false);
 
   const loadWeatherForLocation = async (location: LocationResult) => {
     setLoading(true);
@@ -22,6 +23,59 @@ function App() {
       setError('Unable to load weather data. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUseLocation = async () => {
+    if (!navigator.geolocation) {
+      setError('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    if (geoLoading) return;
+
+    setGeoLoading(true);
+    setError(null);
+    setSearchError(null);
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      const location = {
+        name: 'Your Location',
+        latitude,
+        longitude,
+        country: '',
+      } as LocationResult;
+
+      await loadWeatherForLocation(location);
+    } catch (err) {
+      if (err instanceof GeolocationPositionError) {
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            setError('Location permission was denied. Please allow location access and try again.');
+            break;
+          case err.POSITION_UNAVAILABLE:
+            setError('Your location could not be determined. Please try again.');
+            break;
+          case err.TIMEOUT:
+            setError('Location request timed out. Please try again.');
+            break;
+          default:
+            setError('Unable to determine your location. Please try again.');
+        }
+      } else {
+        setError('Unable to determine your location. Please try again.');
+      }
+    } finally {
+      setGeoLoading(false);
     }
   };
 
@@ -117,6 +171,15 @@ function App() {
         />
         <button type="submit" disabled={loading || !searchQuery.trim()}>
           Search
+        </button>
+        <button
+          type="button"
+          className="geo-button"
+          onClick={handleUseLocation}
+          disabled={loading || geoLoading}
+          aria-busy={geoLoading}
+        >
+          {geoLoading ? 'Locating...' : 'Use My Location'}
         </button>
       </form>
 
