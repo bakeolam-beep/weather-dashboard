@@ -55,7 +55,7 @@ export async function searchLocation(query: string): Promise<LocationResult[]> {
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error('Failed to search location');
+    throw new Error('Failed to search location', { cause: error });
   }
 }
 
@@ -125,7 +125,7 @@ export async function getCurrentWeather(
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error('Failed to fetch weather data');
+    throw new Error('Failed to fetch weather data', { cause: error });
   }
 }
 

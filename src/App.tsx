@@ -18,7 +18,7 @@ function App() {
     try {
       const data = await getCurrentWeather(location.latitude, location.longitude, location);
       setWeather(data);
-    } catch (err) {
+    } catch {
       setError('Unable to load weather data. Please try again.');
     } finally {
       setLoading(false);
@@ -44,7 +44,7 @@ function App() {
         if (mounted) {
           setWeather(data);
         }
-      } catch (err) {
+      } catch {
         if (mounted) {
           setError('Unable to load weather data. Please try again.');
         }
