@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCurrentWeather, searchLocation } from './services/weatherApi';
+import { getWeatherTheme } from './utils/weatherTheme';
 import type { LocationResult, WeatherResponse } from './types/weather';
 import { CurrentWeather } from './components/CurrentWeather';
 import { Forecast } from './components/Forecast';
@@ -12,6 +13,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchError, setSearchError] = useState<string | null>(null);
   const [usingLocation, setUsingLocation] = useState(false);
+  const weatherTheme = weather ? getWeatherTheme(weather.current.weatherCode, weather.current.isDay) : '';
 
   const loadWeatherForLocation = async (location: LocationResult) => {
     setLoading(true);
