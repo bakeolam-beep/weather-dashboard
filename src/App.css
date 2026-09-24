@@ -5,6 +5,80 @@
   min-height: 100vh;
   padding: 24px;
   box-sizing: border-box;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  transition: background 500ms ease, color 300ms ease;
+  --theme-bg: var(--bg);
+  --theme-text: var(--text);
+  --theme-text-h: var(--text-h);
+  --theme-border: var(--border);
+  --theme-card-bg: var(--bg);
+  --theme-shadow: var(--shadow);
+  --theme-input-bg: var(--bg);
+}
+
+.app.clear-day {
+  --theme-bg: linear-gradient(135deg, #87ceeb 0%, #e0f7ff 100%);
+  --theme-card-bg: #ffffff;
+  --theme-border: #b3e5fc;
+  --theme-text: #0f172a;
+  --theme-text-h: #020617;
+  --theme-input-bg: #f8fafc;
+}
+
+.app.clear-night {
+  --theme-bg: linear-gradient(135deg, #0d1117 0%, #1e2a3a 100%);
+  --theme-card-bg: #1e2a3a;
+  --theme-border: #334155;
+  --theme-text: #cbd5e1;
+  --theme-text-h: #f8fafc;
+  --theme-input-bg: #0f172a;
+}
+
+.app.cloudy {
+  --theme-bg: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%);
+  --theme-card-bg: #f8fafc;
+  --theme-border: #94a3b8;
+  --theme-text: #1e293b;
+  --theme-text-h: #0f172a;
+  --theme-input-bg: #f1f5f9;
+}
+
+.app.foggy {
+  --theme-bg: linear-gradient(135deg, #cbd5e1 0%, #e2e8f0 100%);
+  --theme-card-bg: #f1f5f9;
+  --theme-border: #cbd5e1;
+  --theme-text: #475569;
+  --theme-text-h: #334155;
+  --theme-input-bg: #f1f5f9;
+}
+
+.app.rainy {
+  --theme-bg: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  --theme-card-bg: #1e293b;
+  --theme-border: #475569;
+  --theme-text: #cbd5e1;
+  --theme-text-h: #f1f5f9;
+  --theme-input-bg: #0f172a;
+}
+
+.app.stormy {
+  --theme-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --theme-card-bg: rgba(30, 41, 61, 0.8);
+  --theme-border: rgba(255, 255, 255, 0.1);
+  --theme-text: #94a3b8;
+  --theme-text-h: #f8fafc;
+  --theme-input-bg: #02063a;
+  --theme-shadow: rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
+}
+
+.app.snowy {
+  --theme-bg: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+  --theme-card-bg: #ffffff;
+  --theme-border: #93c5fd;
+  --theme-text: #1e293b;
+  --theme-text-h: #020617;
+  --theme-input-bg: #f8fafc;
 }
 
 .app.loading,
@@ -13,7 +87,7 @@
   max-width: 900px;
   text-align: center;
   padding: 48px 24px;
-  color: var(--text);
+  color: var(--theme-text);
 }
 
 .app.error {
@@ -34,12 +108,12 @@
   padding: 12px 16px;
   font-size: 16px;
   font-family: var(--sans);
-  color: var(--text-h);
-  background: var(--bg);
-  border: 1px solid var(--border);
+  color: var(--theme-text-h);
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-border);
   border-radius: 8px;
   box-sizing: border-box;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 300ms ease, color 300ms ease;
 }
 
 .search-form input:focus {
