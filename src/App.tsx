@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getCurrentWeather, searchLocation } from './services/weatherApi';
 import type { LocationResult, WeatherResponse } from './types/weather';
 import { CurrentWeather } from './components/CurrentWeather';
+import { Forecast } from './components/Forecast';
 import './App.css';
 
 function App() {
@@ -198,6 +199,7 @@ function App() {
       )}
 
       {weather && <CurrentWeather weather={weather} />}
+      {weather && <Forecast forecast={weather.daily} />}
     </div>
   );
 }
