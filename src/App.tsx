@@ -160,7 +160,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app ${weatherTheme}`}>
       <form className="search-form" onSubmit={handleSearch}>
         <label htmlFor="city-search" className="visually-hidden">
           Search for a city
