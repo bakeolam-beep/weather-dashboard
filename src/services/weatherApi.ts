@@ -1,4 +1,4 @@
-import type { LocationResult, CurrentWeatherData, WeatherResponse } from '../types/weather';
+import type { LocationResult, CurrentWeatherData, DailyForecast, WeatherResponse } from '../types/weather';
 
 const GEOCODING_API = 'https://geocoding-api.open-meteo.com/v1/search';
 const WEATHER_API = 'https://api.open-meteo.com/v1/forecast';
@@ -68,6 +68,7 @@ export async function getCurrentWeather(
     latitude: latitude.toString(),
     longitude: longitude.toString(),
     current: 'temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,is_day',
+    daily: 'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max',
     timezone: 'auto',
   });
 
@@ -82,6 +83,13 @@ export async function getCurrentWeather(
         weather_code?: number;
         wind_speed_10m?: number;
         is_day?: number;
+      };
+      daily?: {
+        time?: string[];
+        weather_code?: number[];
+        temperature_2m_max?: number[];
+        temperature_2m_min?: number[];
+        precipitation_probability_max?: number[];
       };
     }
 
@@ -120,13 +128,82 @@ export async function getCurrentWeather(
       isDay: is_day === 1,
     };
 
-    return { location, current };
+    const daily = parseDailyForecast(data.daily);
+
+    return { location, current, daily };
   } catch (error) {
     if (error instanceof Error) {
       throw error;
     }
     throw new Error('Failed to fetch weather data', { cause: error });
   }
+}
+
+interface DailyResponse {
+  time?: string[];
+  weather_code?: number[];
+  temperature_2m_max?: number[];
+  temperature_2m_min?: number[];
+  precipitation_probability_max?: number[];
+}
+
+function parseDailyForecast(daily: DailyResponse | undefined): DailyForecast[] {
+  if (!daily) {
+    throw new Error('Weather data is malformed: missing daily forecast data');
+  }
+
+  const { time, weather_code, temperature_2m_max, temperature_2m_min, precipitation_probability_max } = daily;
+
+  if (
+    !time ||
+    !weather_code ||
+    !temperature_2m_max ||
+    !temperature_2m_min ||
+    !precipitation_probability_max
+  ) {
+    throw new Error('Weather data is malformed: missing daily forecast fields');
+  }
+
+  const arrays = [time, weather_code, temperature_2m_max, temperature_2m_min, precipitation_probability_max];
+  const length = arrays[0].length;
+
+  if (length === 0) {
+    throw new Error('Weather data is malformed: empty daily forecast');
+  }
+
+  for (let i = 1; i < arrays.length; i++) {
+    if (arrays[i].length !== length) {
+      throw new Error('Weather data is malformed: daily forecast arrays have mismatched lengths');
+    }
+  }
+
+  const result: DailyForecast[] = [];
+
+  for (let i = 0; i < length; i++) {
+    const weatherCode = weather_code[i];
+    const maxTemp = temperature_2m_max[i];
+    const minTemp = temperature_2m_min[i];
+    const precip = precipitation_probability_max[i];
+
+    if (
+      weatherCode === undefined ||
+      maxTemp === undefined ||
+      minTemp === undefined ||
+      precip === undefined
+    ) {
+      throw new Error('Weather data is malformed: missing daily forecast value at index ' + i);
+    }
+
+    result.push({
+      date: time[i],
+      weatherCode,
+      maxTemperature: maxTemp,
+      minTemperature: minTemp,
+      precipitationProbability: precip,
+    });
+  }
+
+  return result;
 }
 
 export function getWeatherDescription(code: number): string {

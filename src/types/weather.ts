@@ -16,7 +16,16 @@ export interface CurrentWeatherData {
   isDay: boolean;
 }
 
+export interface DailyForecast {
+  date: string;
+  weatherCode: number;
+  maxTemperature: number;
+  minTemperature: number;
+  precipitationProbability: number;
+}
+
 export interface WeatherResponse {
   location: LocationResult;
   current: CurrentWeatherData;
+  daily: DailyForecast[];
 }
