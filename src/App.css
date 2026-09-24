@@ -128,7 +128,7 @@
 }
 
 .search-form input::placeholder {
-  color: var(--text);
+  color: var(--theme-text);
   opacity: 0.6;
 }
 
@@ -226,12 +226,13 @@
 .weather-card {
   width: 100%;
   max-width: 400px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--theme-card-bg);
+  border: 1px solid var(--theme-border);
   border-radius: 16px;
   padding: 32px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--theme-shadow);
   text-align: center;
+  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
 }
 
 .location {
@@ -241,13 +242,13 @@
 .city {
   font-size: 28px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--theme-text-h);
   margin: 0 0 4px;
 }
 
 .country {
   font-size: 16px;
-  color: var(--text);
+  color: var(--theme-text);
   margin: 0;
 }
 
@@ -264,14 +265,14 @@
 .temperature {
   font-size: 64px;
   font-weight: 700;
-  color: var(--text-h);
+  color: var(--theme-text-h);
   margin: 0 0 8px;
   line-height: 1;
 }
 
 .description {
   font-size: 18px;
-  color: var(--text);
+  color: var(--theme-text);
   margin: 0;
   text-transform: capitalize;
 }
@@ -281,7 +282,7 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 20px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--theme-border);
 }
 
 .detail {
