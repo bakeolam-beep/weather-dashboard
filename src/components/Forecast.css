@@ -30,22 +30,23 @@
 
 .forecast-day {
   flex: 0 0 120px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--theme-card-bg);
+  border: 1px solid var(--theme-border);
   border-radius: 12px;
   padding: 16px 12px;
   text-align: center;
-  box-shadow: var(--shadow);
+  box-shadow: var(--theme-shadow);
   display: flex;
   flex-direction: column;
   gap: 6px;
   box-sizing: border-box;
+  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
 }
 
 .forecast-day-name {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--theme-text-h);
   margin: 0;
 }
 
@@ -57,7 +58,7 @@
 
 .forecast-description {
   font-size: 12px;
-  color: var(--text);
+  color: var(--theme-text);
   margin: 0;
   text-transform: capitalize;
   line-height: 1.3;
@@ -66,13 +67,13 @@
 .forecast-temps {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--theme-text-h);
   margin: 4px 0;
 }
 
 .forecast-precip {
   font-size: 12px;
-  color: var(--text);
+  color: var(--theme-text);
   margin: 0;
 }
 
