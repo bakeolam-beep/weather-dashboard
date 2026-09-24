@@ -294,13 +294,13 @@
 
 .detail-label {
   font-size: 14px;
-  color: var(--text);
+  color: var(--theme-text);
 }
 
 .detail-value {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--theme-text-h);
   font-family: var(--mono);
 }
 
