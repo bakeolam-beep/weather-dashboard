@@ -234,8 +234,10 @@
     flex-direction: column;
   }
 
-  .search-form button {
+  .search-form button,
+  .search-form .geo-button {
     width: 100%;
+    white-space: nowrap;
   }
 
   .weather-card {

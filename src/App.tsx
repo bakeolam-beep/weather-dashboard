@@ -10,7 +10,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [geoLoading, setGeoLoading] = useState(false);
+  const [usingLocation, setUsingLocation] = useState(false);
 
   const loadWeatherForLocation = async (location: LocationResult) => {
     setLoading(true);
@@ -32,9 +32,10 @@ function App() {
       return;
     }
 
-    if (geoLoading) return;
+    if (loading || usingLocation) return;
 
-    setGeoLoading(true);
+    setUsingLocation(true);
+    setLoading(true);
     setError(null);
     setSearchError(null);
 
@@ -59,13 +60,13 @@ function App() {
     } catch (err) {
       if (err instanceof GeolocationPositionError) {
         switch (err.code) {
-          case err.PERMISSION_DENIED:
+          case GeolocationPositionError.PERMISSION_DENIED:
             setError('Location permission was denied. Please allow location access and try again.');
             break;
-          case err.POSITION_UNAVAILABLE:
+          case GeolocationPositionError.POSITION_UNAVAILABLE:
             setError('Your location could not be determined. Please try again.');
             break;
-          case err.TIMEOUT:
+          case GeolocationPositionError.TIMEOUT:
             setError('Location request timed out. Please try again.');
             break;
           default:
@@ -75,7 +76,8 @@ function App() {
         setError('Unable to determine your location. Please try again.');
       }
     } finally {
-      setGeoLoading(false);
+      setUsingLocation(false);
+      setLoading(false);
     }
   };
 
@@ -176,12 +178,18 @@ function App() {
           type="button"
           className="geo-button"
           onClick={handleUseLocation}
-          disabled={loading || geoLoading}
-          aria-busy={geoLoading}
+          disabled={loading || usingLocation}
+          aria-busy={usingLocation}
         >
-          {geoLoading ? 'Locating...' : 'Use My Location'}
+          {usingLocation ? 'Locating...' : 'Use My Location'}
         </button>
       </form>
+
+      {error && (
+        <p className="search-error" role="alert">
+          {error}
+        </p>
+      )}
 
       {searchError && (
         <p id="search-error" className="search-error" role="alert">
