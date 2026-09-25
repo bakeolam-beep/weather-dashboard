@@ -1,6 +1,7 @@
 {
   "name": "weather-dashboard",
   "private": true,
+  "description": "A responsive weather dashboard with a live weather search, browser geollocation, dynamic weather theme amd seven day forecast.",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
